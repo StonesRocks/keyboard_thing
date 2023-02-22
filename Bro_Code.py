@@ -56,8 +56,8 @@ else:
     max = int(np.sqrt(ken_size)) + 1
     may = int(np.sqrt(ken_size))
 man_size = max * may
-print(man_size)
-#create an array with all rows and columns.
+
+#creates man_array which is the matrix, use this to create all lines that will be checked for keybord fitness.
 man_array = np.empty
 rows = []
 k = 0
@@ -69,6 +69,19 @@ for i in range(may):
         k += 1
     rows.append(onerow)
 man_array = np.array(list(rows))
+
+#mlines lists of every electral line(rows and columns) in the matrix.
+mlines = []
+for mrow in rows:
+    mlines.append(mrow)
+
+for x in range(0, max):
+    mcol = []
+    for y in rows:
+        mcol.append(y[x])
+    mlines.append(mcol)
+
+
 
 #should i create a class for the individual in population?
 #the class would include the list of ken2man and fitness.
