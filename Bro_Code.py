@@ -81,8 +81,6 @@ for x in range(0, max):
         mcol.append(y[x])
     mlines.append(mcol)
 
-
-
 #should i create a class for the individual in population?
 #the class would include the list of ken2man and fitness.
 
@@ -97,6 +95,5 @@ class Keyboard:
         self.fitness = 0
         self.man = np.random.choice(man_size, size=ken_size, replace=False)
 
-
-
-
+a = Keyboard
+print(a.man)
