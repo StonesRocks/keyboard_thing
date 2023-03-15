@@ -40,7 +40,11 @@ with open(json_file, encoding="utf8") as f:
                         "uh oh"
                     elif key == 'a' or key == 'f' or key == 'f2' or key == 'p' or key == 's':
                         "something about font"
-        skipy += 1
+
+            if width != 0:
+                skipx += width
+            skipx += 1
+            width = 0
     #puts every kex and key into a numpy array where each index represents a key.
     ken_array = np.array(list(ken_list))
 
@@ -95,5 +99,17 @@ class Keyboard:
         self.fitness = 0
         self.man = np.random.choice(man_size, size=ken_size, replace=False)
 
-a = Keyboard
-print(a.man)
+def test():
+    first_array = np.linspace((0,10),(19,200),num=20, dtype=int)
+
+    print(first_array)
+    where = np.where(first_array == 170) #gives a tuple
+    flatnonzero =np.flatnonzero(first_array == 200) #wtf is this. answer, it orders them into 1d array and takes the index...
+    argwhere = np.argwhere(first_array == 170) # this gives correct indices
+    print(where, flatnonzero, argwhere)
+test()
+def print():
+    a = Keyboard()
+    print(a.man)
+    print(ken_array)
+    print(man_array)
