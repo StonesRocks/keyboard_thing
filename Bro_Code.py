@@ -78,18 +78,21 @@ man_array = np.array(list(rows))
 mlines = []
 for mrow in rows:
     mlines.append(mrow)
+lrows = np.array(list(mlines))
+mlines.clear()
 
 for x in range(0, max):
     mcol = []
     for y in rows:
         mcol.append(y[x])
     mlines.append(mcol)
+lcols = np.array(list(mlines))
 
 #should i create a class for the individual in population?
 #the class would include the list of ken2man and fitness.
 
 #ken2man or man2ken?
-#we need man2ken to be able to calculat the length/fitness
+#we need man2ken to be able to calculate the length/fitness
 #we need ken2man to be able know which man exist in keyboard.
     #why cant we just have a list of the existing man and then use each index as the ken?
     #we look up which index the man have and take all the index to calculate kex and key?
@@ -99,17 +102,29 @@ class Keyboard:
         self.fitness = 0
         self.man = np.random.choice(man_size, size=ken_size, replace=False)
 
+    def fitness_Score(self):
+        #Take all columns and rows and look for them in the man. DONE mlines is a list with all rows and columns
+        #Sort by X and calculate distance for each column and row and summarize score
+        print("not done")
+        #We have two arrays, lrows and lcols, these two contain
+        for r in lrows:
+
+
 def test():
     first_array = np.linspace((0,10),(19,200),num=20, dtype=int)
 
     print(first_array)
     where = np.where(first_array == 170) #gives a tuple
     flatnonzero =np.flatnonzero(first_array == 200) #wtf is this. answer, it orders them into 1d array and takes the index...
-    argwhere = np.argwhere(first_array == 170) # this gives correct indices
+    argwhere = np.argwhere(first_array == 170) #this gives correct indices
     print(where, flatnonzero, argwhere)
-test()
-def print():
+
+def test_Print():
     a = Keyboard()
     print(a.man)
     print(ken_array)
     print(man_array)
+    print(lrows, lrows.shape)
+    print(lcols, lcols.shape)
+
+test_Print()
