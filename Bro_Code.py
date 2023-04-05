@@ -100,14 +100,20 @@ lcols = np.array(list(mlines))
 class Keyboard:
     def __init__(self):
         self.fitness = 0
-        self.man = np.random.choice(man_size, size=ken_size, replace=False)
+        self.man = np.random.choice(man_size, size=ken_size, replace=False) #creates a one dimensinal numpy array
 
     def fitness_Score(self):
         #Take all columns and rows and look for them in the man. DONE mlines is a list with all rows and columns
         #Sort by X and calculate distance for each column and row and summarize score
         print("not done")
         #We have two arrays, lrows and lcols, these two contain
+        node_Line = np.zeros((len(lrows[0]),2))
         for r in lrows:
+            index = 0
+            for node in r:
+                #print(node, np.argwhere(self.man == node), ken_array[np.argwhere(self.man == node)])
+                np.put(node_Line, index, ken_array[np.argwhere(self.man == node)])
+                index += 1
 
 
 def test():
@@ -121,10 +127,10 @@ def test():
 
 def test_Print():
     a = Keyboard()
-    print(a.man)
-    print(ken_array)
-    print(man_array)
-    print(lrows, lrows.shape)
-    print(lcols, lcols.shape)
-
+    print("this is man in the class Keyboard", a.man, np.shape(a.man))
+    #print(ken_array)
+    #print(man_array)
+    #print(lrows, lrows.shape)
+    #print(lcols, lcols.shape)
+    a.fitness_Score()
 test_Print()
