@@ -1,136 +1,1 @@
-import numpy as np
-import networkx as nx
-import json
-
-json_file = 'keyboard-layout_1.json'
-ken_array = np.empty
-
-with open(json_file, encoding="utf8") as f:
-    json_dict = json.load(f)
-
-    adjy = 0
-    skipy = 0
-
-    ken_list = []
-
-    for i in json_dict:
-        width = 0
-        skipx = 0
-        for j in i:
-            if isinstance(j, str):
-                x = skipx+(width/2)
-                y = float(adjy + skipy)
-                ken_list.append([x, y])
-
-            elif isinstance(j, dict):
-                for key in j:
-                    if key == 'x':
-                        # print("add ", j['x'], " horizontal space")
-                        skipx += float(j['x'])
-                    elif key == 'y':
-                        # print("add ", j['y'], " vertical space")
-                        skipy += float(j['y'])
-                    elif key == 'w':
-                        # print("add key width by ", j['w'])
-                        width = float(j['w']) - 1
-                    elif key == 'h':
-                        "add key height(downwards) by , j['h'])"
-                        # adjy += float(j['h']) / 2
-                    elif key == 'x2' or key == 'y2' or key == 'w2' or key == 'h2':
-                        "uh oh"
-                    elif key == 'a' or key == 'f' or key == 'f2' or key == 'p' or key == 's':
-                        "something about font"
-
-            if width != 0:
-                skipx += width
-            skipx += 1
-            width = 0
-    #puts every kex and key into a numpy array where each index represents a key.
-    ken_array = np.array(list(ken_list))
-
-#looks up the smallest matrix available, if matrix is square then columns and row will match, otherwise add extra column
-ken_size = len(ken_array)
-man_size = 0 #value given after
-max = 0
-may = 0
-if np.sqrt(ken_size) == int(np.sqrt(ken_size)):
-    max = np.sqrt(ken_size)
-    may = max
-else:
-    max = int(np.sqrt(ken_size)) + 1
-    may = int(np.sqrt(ken_size))
-man_size = max * may
-
-#creates man_array which is the matrix, use this to create all lines that will be checked for keybord fitness.
-man_array = np.empty
-rows = []
-k = 0
-for i in range(may):
-    onerow = []
-    onerow.clear()
-    for j in range(0,max):
-        onerow.append(k)
-        k += 1
-    rows.append(onerow)
-man_array = np.array(list(rows))
-
-#mlines lists of every electral line(rows and columns) in the matrix.
-mlines = []
-for mrow in rows:
-    mlines.append(mrow)
-lrows = np.array(list(mlines))
-mlines.clear()
-
-for x in range(0, max):
-    mcol = []
-    for y in rows:
-        mcol.append(y[x])
-    mlines.append(mcol)
-lcols = np.array(list(mlines))
-
-#should i create a class for the individual in population?
-#the class would include the list of ken2man and fitness.
-
-#ken2man or man2ken?
-#we need man2ken to be able to calculate the length/fitness
-#we need ken2man to be able know which man exist in keyboard.
-    #why cant we just have a list of the existing man and then use each index as the ken?
-    #we look up which index the man have and take all the index to calculate kex and key?
-
-class Keyboard:
-    def __init__(self):
-        self.fitness = 0
-        self.man = np.random.choice(man_size, size=ken_size, replace=False) #creates a one dimensinal numpy array
-
-    def fitness_Score(self):
-        #Take all columns and rows and look for them in the man. DONE mlines is a list with all rows and columns
-        #Sort by X and calculate distance for each column and row and summarize score
-        print("not done")
-        #We have two arrays, lrows and lcols, these two contain
-        node_Line = np.zeros((len(lrows[0]),2))
-        for r in lrows:
-            index = 0
-            for node in r:
-                #print(node, np.argwhere(self.man == node), ken_array[np.argwhere(self.man == node)])
-                np.put(node_Line, index, ken_array[np.argwhere(self.man == node)])
-                index += 1
-
-
-def test():
-    first_array = np.linspace((0,10),(19,200),num=20, dtype=int)
-
-    print(first_array)
-    where = np.where(first_array == 170) #gives a tuple
-    flatnonzero =np.flatnonzero(first_array == 200) #wtf is this. answer, it orders them into 1d array and takes the index...
-    argwhere = np.argwhere(first_array == 170) #this gives correct indices
-    print(where, flatnonzero, argwhere)
-
-def test_Print():
-    a = Keyboard()
-    print("this is man in the class Keyboard", a.man, np.shape(a.man))
-    #print(ken_array)
-    #print(man_array)
-    #print(lrows, lrows.shape)
-    #print(lcols, lcols.shape)
-    a.fitness_Score()
-test_Print()
+import numpy as npimport networkx as nximport jsonimport randomjson_file = 'keyboard-layout_1.json'ken_array = np.emptywith open(json_file, encoding="utf8") as f:    json_dict = json.load(f)    adjy = 0    skipy = 0    ken_list = []    for i in json_dict:        width = 0        skipx = 0        for j in i:            if isinstance(j, str):                x = skipx+(width/2)                y = float(adjy + skipy)                ken_list.append([x, y])            elif isinstance(j, dict):                for key in j:                    if key == 'x':                        # print("add ", j['x'], " horizontal space")                        skipx += float(j['x'])                    elif key == 'y':                        # print("add ", j['y'], " vertical space")                        skipy += float(j['y'])                    elif key == 'w':                        # print("add key width by ", j['w'])                        width = float(j['w']) - 1                    elif key == 'h':                        "add key height(downwards) by , j['h'])"                        # adjy += float(j['h']) / 2                    elif key == 'x2' or key == 'y2' or key == 'w2' or key == 'h2':                        "uh oh"                    elif key == 'a' or key == 'f' or key == 'f2' or key == 'p' or key == 's':                        "something about font"            if width != 0:                skipx += width            skipx += 1            width = 0        skipy += 1    #puts every kex and key into a numpy array where each index represents a key.    ken_array = np.array(list(ken_list))#looks up the smallest matrix available, if matrix is square then columns and row will match, otherwise add extra columnken_size = len(ken_array)man_size = 0 #value given aftermax = 0may = 0if np.sqrt(ken_size) == int(np.sqrt(ken_size)):    max = np.sqrt(ken_size)    may = maxelse:    max = int(np.sqrt(ken_size)) + 1    may = int(np.sqrt(ken_size))man_size = max * may#creates man_array which is the matrix, use this to create all lines that will be checked for keybord fitness.man_array = np.emptyrows = []k = 0for i in range(may):    onerow = []    onerow.clear()    for j in range(0,max):        onerow.append(k)        k += 1    rows.append(onerow)man_array = np.array(list(rows))#mlines lists of every electral line(rows and columns) in the matrix.mlines = []for mrow in rows:    mlines.append(mrow)lrows = np.array(list(mlines))mlines.clear()for x in range(0, max):    mcol = []    for y in rows:        mcol.append(y[x])    mlines.append(mcol)lcols = np.array(list(mlines))#should i create a class for the individual in population?#the class would include the list of ken2man and fitness.#ken2man or man2ken?#we need man2ken to be able to calculate the length/fitness#we need ken2man to be able know which man exist in keyboard.    #why cant we just have a list of the existing man and then use each index as the ken?    #we look up which index the man have and take all the index to calculate kex and key?class Keyboard:    def __init__(self):        self.fitness = 0        self.man = np.random.choice(man_size, size=ken_size, replace=False) #creates a one dimensinal numpy array    def fitness_Score(self):        #Take all columns and rows and look for them in the man. DONE mlines is a list with all rows and columns        #Sort by X and calculate distance for each column and row and summarize score        #print("not done")        #We have two arrays, lrows and lcols, these two contain        node_Line = np.zeros((len(lrows[0]),2))        fit_Tot = 0        for r in lrows:            index = 0            for node in r:                #print(node, np.argwhere(self.man == node), ken_array[np.argwhere(self.man == node)])                np.put(node_Line, [index, index+1], ken_array[np.argwhere(self.man == node)])                index += 2                #print(node_Line)            node_Line = node_Line[node_Line[:, 0].argsort()] #sorts the line according to geometrical x position.            #print("this is len", len(node_Line))            fit_Value = 0 #we add fitness value between each node in an electrical wire with the for-loop below            for i in range(len(node_Line)-1): #we compare two elements and therefore skip one.                fit_Value += node_Line[i+1][0]-node_Line[i][0] + abs(node_Line[i+1][1]-node_Line[i][1])            fit_Tot += fit_Value        for c in lcols:            index = 0            for node in c:                np.put(node_Line, [index, index + 1], ken_array[np.argwhere(self.man == node)])                index += 2            node_Line = node_Line[node_Line[:, 0].argsort()]  # sorts the line according to geometrical x position.            fit_Value = 0  # we add fitness value between each node in an electrical wire with the for-loop below            for i in range(len(node_Line) - 1):  # we compare two elements and therefore skip one.                fit_Value += node_Line[i + 1][0] - node_Line[i][0] + abs(node_Line[i + 1][1] - node_Line[i][1])            fit_Tot += fit_Value        self.fitness = fit_Tot        print(self.fitness)            #we need to take node_Line here and calculate its length before we continue, after that the loop will reuse node_Line            #maybe a better solution would be to use a 3d array, where axis 0 and 1 is equivalent to the matrix but the third dimension contain the coordinates.            #print(node_Line[node_Line[:, 0].argsort()])def test_Func():    print("func")def test():    first_array = np.linspace((0,10),(19,200),num=20, dtype=int)    print(first_array)    where = np.where(first_array == 170) #gives a tuple    flatnonzero =np.flatnonzero(first_array == 200) #wtf is this. answer, it orders them into 1d array and takes the index...    argwhere = np.argwhere(first_array == 170) #this gives correct indices    print(where, flatnonzero, argwhere)def simulate_rolls():    array_2d = [[0] * 11 for _ in range(10)]    rolls = 0    rows_affected = set()    cols_affected = set()    rolled_values = set()    while len(rows_affected) < 10 or len(cols_affected) < 11:        value = random.randint(1, 110)        if value not in rolled_values:            rolled_values.add(value)            row = (value - 1) // 11            col = (value - 1) % 11            if array_2d[row][col] == 0:                array_2d[row][col] = 1                rolls += 1                rows_affected.add(row)                cols_affected.add(col)    return rollsdef chat_GPT():    num_iterations = 1000  # Number of iterations to run the simulation    total_rolls = 0    for _ in range(num_iterations):        total_rolls += simulate_rolls()    average_rolls = total_rolls / num_iterations    print(f"Average number of rolls over {num_iterations} runs: {average_rolls}")chat_GPT()def test_Print():    a = Keyboard()    print("this is man in the class Keyboard\n", a.man)    #print(ken_array)    #print(man_array)    #print(lrows, lrows.shape)    #print(lcols, lcols.shape)    a.fitness_Score()test_Print()#test_Func()
